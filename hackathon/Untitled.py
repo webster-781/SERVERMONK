@@ -62,20 +62,22 @@ class User(db.Model,UserMixin):
         return "email: {}, password: {},image: {}".format(self.email,self.password,self.image_file)
     def past_n(self,n):
         list_1 = Food.query.filter_by(user_id=self.id).all()
-        a = {"protien":0,"carb":0,"calorie":0}
+        a = {"protien":0,"carb":0,"fat":0,"calorie":0}
         for food in list_1:
             today = date.today()
             todayday=today.day
             food_day = food.food_date.day
             if(food_day==todayday-n+1):
+                a["fat"]+=food.fat
                 a["protien"]+=food.protien
                 a["carb"]+=food.carb
                 a["calorie"]+=food.calorie
         return a
     def past_week(self):
         list_1 = Food.query.filter_by(user_id=self.id).all()
-        a = {"protien":0,"carb":0,"calorie":0}
+        a = {"protien":0,"carb":0,"fat":0,"calorie":0}
         for food in list_1:
+                a["fat"]+=food.fat
                 a["protien"]+=food.protien
                 a["carb"]+=food.carb
                 a["calorie"]+=food.calorie
@@ -98,7 +100,7 @@ class Food(db.Model):
     protien = db.Column(db.Float, nullable = False,default =0)
     calorie = db.Column(db.Float, nullable = False,default =0)
     carb = db.Column(db.Float, nullable = False,default =0)
-    
+    fat = db.Column(db.Float, nullable = False,default =0)
     def __repr__(self):
         return "Name: {}, date: {},user_id :{} , protien:{}".format(self.food_name,self.food_date,self.user_id,self.protien)
     
@@ -125,10 +127,16 @@ class Food(db.Model):
             p3=dc['hints'][0]['food']['nutrients']['ENERC_KCAL']
             self.calorie = float(p3)
         else:
-            self.calorie = 0.0
+            self.calorie = 0.1
+        if('FAT' in dc['hints'][0]['food']['nutrients']):
+            p3=dc['hints'][0]['food']['nutrients']['FAT']
+            self.fat = float(p3)
+        else:
+            self.fat = 0.1
         self.calorie *=(self.quantity)
         self.protien *=(self.quantity)
         self.carb *=(self.quantity)
+        self.fat*=(self.quantity)
         
         
 @login_manager.user_loader

@@ -94,16 +94,18 @@ font-family: 'Josefin Sans',sans-serif ;
             <div class="row pt-5">
              
 
-
+                {% set w1 = (user.past_week()['protien'] + 1)%}
+                {% set w2 = user.past_week()['carb'] +1 %}
+                {% set w3 = user.past_week()['calorie'] +1 %}
                 <script type="text/javascript">
 				      google.charts.load("current", {packages:["corechart"]});
 				      google.charts.setOnLoadCallback(drawChart);
 				      function drawChart() {
 				        var data = google.visualization.arrayToDataTable([
 				          ['nutrient', 'intake'],
-				          ['protein',   {{user.past_week['protien']}}],
-				          ['carbs',      {{user.past_week['carb']}},
-				          ['calories(in kcal)',  {{user.past_week['calorie']}}],
+				          ['protein',   {{w1|float}}],
+				          ['carbs',      {{w2|float}}],
+				          ['calories',  {{w3|float}}],
 				           ]);
 
 				        var options = {
@@ -122,6 +124,9 @@ font-family: 'Josefin Sans',sans-serif ;
 
                <div class="col-lg-6 col-sd-12 col-md-6" id="piechart_3d1" style="width: 900px; height: 500px;">
                <!--  -->
+                {% set a1= date.day-1 %}
+                {% set a2= date.day-2 %}
+                {% set a3= date.day-3 %}
 				    
 			</div>
 
@@ -132,13 +137,13 @@ font-family: 'Josefin Sans',sans-serif ;
 				      function drawChart() {
 				        var data1 = google.visualization.arrayToDataTable([
    ['nutrients', 'proteins', 'carbs', 'fats'],
-				          [{{date.day}}-{{date.month}}, {{user.past_n(1)["protien"]}},{{user.past_n(1)["carb"]}},        {{user.past_n(1)["calorie"]}}],
+				          [{{date.day|string}}, {{user.past_n(1)["protien"]}},{{user.past_n(1)["carb"]}},        {{user.past_n(1)["calorie"]}}],
                           
-                           [{{date.day-1}}-{{date.month}}, {{user.past_n(2)["protien"]}},{{user.past_n(2)["carb"]}},        {{user.past_n(2)["calorie"]}}],
+                           [{{a1|string}}, {{user.past_n(2)["protien"]}},{{user.past_n(2)["carb"]}},        {{user.past_n(2)["calorie"]}}],
                            
-                          [{{date.day-2}}-{{date.month}}, {{user.past_n(3)["protien"]}},{{user.past_n(3)["carb"]}},        {{user.past_n(3)["calorie"]}}],
+                          [{{a2|string}}, {{user.past_n(3)["protien"]}},{{user.past_n(3)["carb"]}},        {{user.past_n(3)["calorie"]}}],
                           
-                          [{{date.day-4}}-{{date.month}}, {{user.past_n(4)["protien"]}},{{user.past_n(4)["carb"]}},        {{user.past_n(4)["calorie"]}}]]);
+                          [{{a3|string}}, {{user.past_n(4)["protien"]}},{{user.past_n(4)["carb"]}},        {{user.past_n(4)["calorie"]}}]
 				        ]);
 
 				        var options = {
@@ -179,21 +184,23 @@ font-family: 'Josefin Sans',sans-serif ;
                   <h1 class="text-capitalize text-center pt-5">Today's Report</h1>
                   <hr class="w-25 mx-auto pt-5">
                 </div>
+                 {% set a = user.past_n(1)["calorie"]%}
+                 {% set b = 2000 - a %}
                <div class="col-md-6 col-sd-12 col-lg-4">
                  <h1 class="text-capitalize text-center pt-5">Calories Consumed</h1>
-                 <h2 class="text-capitalize text-center">1200</h2>
+                 <h2 class="text-capitalize text-center">{{b | int}}</h2>
                </div>
              
-
+               
                <div class="col-md-6 col-sd-12 col-lg-4">
                  <h1 class="text-capitalize text-center pt-5">Calories Left</h1>
-                 <h2 class="text-capitalize text-center">800</h2>
+                 <h2 class="text-capitalize text-center">{{a | int}}</h2>
                </div>
                 
 
                 <div class="col-md-6 col-sd-12 col-lg-4">
                  <h1 class="text-capitalize text-center pt-5">Water Consumed</h1>
-                 <h2 class="text-capitalize text-center">1.2Litre</h2>
+                 <h2 class="text-capitalize text-center">{{user.getWater()}} Litres</h2>
                </div>
                 </div>
 

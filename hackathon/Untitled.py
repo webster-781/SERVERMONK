@@ -79,8 +79,14 @@ class User(db.Model,UserMixin):
                 a["protien"]+=food.protien
                 a["carb"]+=food.carb
                 a["calorie"]+=food.calorie
-                print(a["calorie"])
-        return list_1
+        return a
+    
+    def getWater(self):
+        list_1 = Food.query.filter_by(user_id=self.id, food_name="water" or "Water" or "WATER").all()
+        a = 0.0
+        for food in list_1:
+            a+=food.quantity
+        return a
     
     
 class Food(db.Model):
@@ -160,6 +166,7 @@ def logout():
 def dash():
     user = current_user
     form = FoodForm()
+    
     if form.validate_on_submit():
         food_1 = Food(food_name=form.name.data, quantity=form.quantity.data, user_id=user.id)
         food_1.getNutrients()

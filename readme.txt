@@ -6,7 +6,7 @@ On a separate note, the following are the ones in the requirements.txt which you
 3.Flask-Login==0.5.0 (flask_login)
 4.Flask-SQLAlchemy==2.4.1 (flask_sqlalchemy)
 5.Flask-WTF==0.14.3 (flask_wtf)
-
+You have to be in HACKATHON/hackathon directory and run Untitled with Flask as follows:
 You then have to open your terminal and open "../HACKATHON/hackathon/" directory using cd command
 1.Then you have to type the following command into the terminal window:
         export FLASK_APP=Untitled.py

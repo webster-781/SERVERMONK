@@ -22,7 +22,7 @@ font-family: 'Josefin Sans',sans-serif ;
 
   .carousel-inner img{
   width :100%;
-  height :100%;
+  height :500px;
 }
 </style>
 </head>
@@ -39,6 +39,9 @@ font-family: 'Josefin Sans',sans-serif ;
               {% endfor %}
             {% endif %}
           {% endwith %}
+        </div>
+      </div>
+<div >
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
   <!-- Brand -->
   <a class="navbar-brand" href="#">Logo</a>
@@ -52,13 +55,14 @@ font-family: 'Josefin Sans',sans-serif ;
       <a class="nav-link" href="https://www.fb.com">CONTACT</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="{{url_for('register')}}">Register</a>
+    <a class="nav-link btn btn-danger text-light mx-5" href="{{url_for('register')}}">Register</a>
     </li>
     <li class="nav-item">
       <a class="btn btn-danger navbar-btn mx-5 mr-auto" data-toggle="modal" data-target="#myModal" href="#">Login</a>
     </li>
   </ul>
 </nav>
+</div>
   <!-- This is login Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
@@ -105,7 +109,13 @@ font-family: 'Josefin Sans',sans-serif ;
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
-          </div>                                                                               
+          </div>     
+          </form>
+          </div>
+    </div>  
+    </div> 
+    </div>
+                                                                        
 <!-- Now we have the carousel option available here-->
 <div id="demo" class="carousel slide" data-ride="carousel">
 

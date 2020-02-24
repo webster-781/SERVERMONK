@@ -11,6 +11,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	
 <style >
 
@@ -40,43 +41,129 @@ font-family: 'Josefin Sans',sans-serif ;
           {% endwith %}
           {% block content %}{% endblock %}
         </div>
+    </div>
+</main>
+
 <body>
 
-
+<div>
 	<!-- This is nav bar tag -->
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-capitalize">
-  <ul class="navbar-nav">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark text-capitalize ">
+  <ul class="navbar-nav ">
     
     <li class="nav-item">
-      <a class="nav-link" href="{{url_for('logout')}}">LOGOUT</a>
+      <a class="nav-link btn btn-danger " href="{{url_for('home')}}">HOME</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn btn-danger mx-5" href="{{url_for('dash')}}">DashBoard</a>
+    </li>
+    <li class="nav-item ml-auto">
+      <a class="nav-link btn btn-primary margin-left:auto" href="{{url_for('logout')}}">LOGOUT</a>
     </li>
     
   </ul>
 </nav>
+</div>
 
-<body>
+
+
+
   <section id="WeekPerformance">
               <div class="container-fluid">
             <h1 class="text-capitalize text-center pt-5">Welcome {{user.email}}</h1>
             <hr class="w-25 mx-auto pt-5">
-            <h3 class="text-center text-capitalize pt-5">We have evaluated your this week Food Track</h3>
-          </div>
+		            <div class="row">
+		               <div class="col-lg-6 col-md-6 col-sd-12"> <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" class="container-fluid"></div>
+ 						 <div class="col-sd-12 col-md-6 col-12">
+           					 <h1 class="text-center text-capitalize">Eating Habbts </h1>
+           					 <ul class="text-capitalize ">
+           					 	<li>
+           					 		Base your meals on higher fibre starchy carbohydrates
+           					 	</li>
+           					 	<li>Eat lots of fruit and veg</li>
+           					 	<li>Eat more fish, including a portion of oily fish</li>
+           					 	<li>Cut down on saturated fat and sugar</li>
+           					 	<li>Eat less salt: no more than 6g a day for adults</li>
+           					 	<li>Get active and be a healthy weight</li>
+           					 </ul>
+		   	       		  </div>
+		   	       		</div>
+           				 <h3 class="text-center text-capitalize pt-5">We have evaluated your this week Food Track</h3>
+         			 </div>
             <!-- here we will show the weekly analysis of the user  using the gridSystem-->
             <div class="row pt-5">
-              <div class="col-lg-4 col-sd-12 col-md-6" >
-                Here comes the weekly calorie input chart taken by u
+             
+
+
+                <script type="text/javascript">
+				      google.charts.load("current", {packages:["corechart"]});
+				      google.charts.setOnLoadCallback(drawChart);
+				      function drawChart() {
+				        var data = google.visualization.arrayToDataTable([
+				          ['nutrient', 'intake'],
+				          ['protein',   {{user.past_week['protien']}}],
+				          ['carbs',      {{user.past_week['carb']}},
+				          ['calories(in kcal)',  {{user.past_week['calorie']}}],
+				           ]);
+
+				        var options = {
+				          title: 'nutrition chart' ,
+				          is3D: true,
+				        };
+
+				        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d1'));
+				        chart.draw(data, options);
+				      }
+				    </script>
+<!-- 
+				 Here comes the weekly protein/fat/carbohydrates input chart taken by u
+				                This is piegraph graph
+				                 -->
+
+               <div class="col-lg-6 col-sd-12 col-md-6" id="piechart_3d1" style="width: 900px; height: 500px;">
+               <!--  -->
+				    
+			</div>
+
+				    <script type="text/javascript">
+				      google.charts.load('current', {'packages':['bar']});
+				      google.charts.setOnLoadCallback(drawChart);
+
+				      function drawChart() {
+				        var data1 = google.visualization.arrayToDataTable([
+   ['nutrients', 'proteins', 'carbs', 'fats'],
+				          [{{date.day}}-{{date.month}}, {{user.past_n(1)["protien"]}},{{user.past_n(1)["carb"]}},        {{user.past_n(1)["calorie"]}}],
+                          
+                           [{{date.day-1}}-{{date.month}}, {{user.past_n(2)["protien"]}},{{user.past_n(2)["carb"]}},        {{user.past_n(2)["calorie"]}}],
+                           
+                          [{{date.day-2}}-{{date.month}}, {{user.past_n(3)["protien"]}},{{user.past_n(3)["carb"]}},        {{user.past_n(3)["calorie"]}}],
+                          
+                          [{{date.day-4}}-{{date.month}}, {{user.past_n(4)["protien"]}},{{user.past_n(4)["carb"]}},        {{user.past_n(4)["calorie"]}}]]);
+				        ]);
+
+				        var options = {
+				          chart: {
+				            title: '',
+				            subtitle: '',
+				          }
+				        };
+
+				        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+				        chart.draw(data1, google.charts.Bar.convertOptions(options));
+				      }
+				    </script>
+
+               <div class="col-lg-6 col-sd-12 col-md-6" id="columnchart_material" style="width: 800px; height: 500px;">
+               <!--  Here comes the weekly calorie input chart taken by u
                 This is bar graph
-                <br><br><br><br><br><br><br>
-              </div>
-               <div class="col-lg-4 col-sd-12 col-md-6" >
-                Here comes the weekly protein/fat/carbohydrates input chart taken by u
-                This is piegraph graph
-                <br><br><br><br><br><br><br>
-              </div>
-               <div class="col-lg-4 col-sd-12 col-md-6" >
-                Here comes the weekly calorie input chart taken by u
-                This is bar graph
-                <br><br><br><br><br><br><br>
+ -->
+
+				 
+				    
+
+
+                
               </div>
 
               </div>
@@ -88,7 +175,7 @@ font-family: 'Josefin Sans',sans-serif ;
   </section>
   <section id="Today's performance">
             <div class="row">
-             <div class="container-fluid">
+             <div class="container-fluid ">
                   <h1 class="text-capitalize text-center pt-5">Today's Report</h1>
                   <hr class="w-25 mx-auto pt-5">
                 </div>
@@ -114,10 +201,94 @@ font-family: 'Josefin Sans',sans-serif ;
                   <h1 class="text-center text-capitalize ">Today's Nutrition Distribution</h1>
                    <hr class="w-25 mx-auto pt-5">
                    <p class="text-center">Here comes the pi chart of protein/fat/carbohydrates</p>
+                 
+					   
                 </div>
+                 <script type="text/javascript">
+					      google.charts.load("current", {packages:["corechart"]});
+					      google.charts.setOnLoadCallback(drawChart);
+					      function drawChart() {
+					        var data = google.visualization.arrayToDataTable([
+					          ['nutrient', 'intake'],
+					          ['protein',     {{user.past_n(1)["protien"]}}],
+					          ['carbs',      {{user.past_n(1)["carb"]}}],
+					          ['calories',  {{user.past_n(1)["calorie"]}}],
+					           ]);
+
+					        var options = {
+					          title: 'nutrition chart' ,
+					          is3D: true,
+					        };
+
+					        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d2'));
+					        chart.draw(data, options);
+					      }
+					    </script>
+					     <div id="piechart_3d2" style="width: 900px; height: 500px;" class="center-block"></div>
 
 </section>
 
+<!-- This is input add form -->
+<section id="Add Input" >
+	            <div class="container-fluid bg-danger text-capitalize text-light " align="center">
+                  <h1 class="text-capitalize text-center ">Add Food Eaten Input</h1>
+                  <hr class="w-25 mx-auto pt-5">
+                  <br>
 
+                  <p class="text-center text-capitalize "> Dear user you can are required to add food input consummed By you in the below form . Enter only the food item name and quantity consumed by you.</p>
+
+             <form method="POST" action="{{url_for('dash')}}">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.quantity.label(class="form-control-label") }}
+                    {% if form.quantity.errors %}
+                        {{ form.quantity(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.quantity.errors %}
+                                <span>{{ error }}</span>
+                            
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.quantity(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            </form>
+    </div>
+    <!-- Comments from foodtracker team -->
+           		  <section >
+
+           		  	<div class="container-fluid">
+                  <h1 class="text-capitalize text-center pt-5">Message From Our Team</h1>
+                  <hr class="w-25 mx-auto pt-5">
+                  <br>
+                  <p class="text-center text-capitalize">we at foodtracker team take care of nutrient food values of our users. 
+                       we have some reacommendations for you........</p>
+              </div>
+                     <!-- there will be lower and upper limit of all gym-freaks , fitness etc based on which we give specific recommendation -->
+
+
+           		  </section>
+
+    <a href="{{url_for('display')}}">HERE ARE ALL YOUR ENTRIES
+    </a>
 </body>
 </html>

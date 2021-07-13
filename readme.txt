@@ -24,3 +24,10 @@ FEATURES OF THE WEBSITE:
 5.)You have to add the food you eat using the add food form. Please note that the units of food is generalized and is treated as 1 unit = 100gm. So please keep that in mind :) 
 6.)You can also view all your entries by clicking on the ALL ENTRIES button on the nav-bar.
 7.)Finally, you can log out and will be redirected to the home page.
+
+
+Thank You,
+
+Ayush Singh
+Jaskeerat Singh Saluja
+Prateek Sinha
